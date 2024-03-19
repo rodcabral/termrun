@@ -2,8 +2,33 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <termios.h>
+#include <unistd.h>
+
+struct termios old_term, new_term;
+
+void reset_terminal() {
+    tcsetattr(STDIN_FILENO, TCSANOW, &old_term);
+    printf("\e[?25h");
+}
+
+void config_terminal() {
+    tcgetattr(STDIN_FILENO, &old_term);
+    
+    new_term = old_term;
+    new_term.c_lflag &= (ICANON | ECHO);
+    new_term.c_cc[VMIN] = 0;
+    new_term.c_cc[VTIME] = 0;
+
+    tcsetattr(STDIN_FILENO, TCSANOW, &new_term);
+
+    printf("\e[?25l");
+
+    atexit(reset_terminal);
+}
 
 TRM_Window* TRM_CreateWindow(int w, int h) {
+    config_terminal();
     TRM_Window* win = malloc(sizeof(TRM_Window));
 
     win->w = w;
@@ -33,3 +58,7 @@ void TRM_UpdateWindow(TRM_Window* window, TRM_Context* context) {
         printf("\n");
     }
 };
+
+void TRM_CloseWindow() {
+    reset_terminal();
+}
