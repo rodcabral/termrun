@@ -12,6 +12,8 @@ TRM_Window* TRM_CreateWindow(int w, int h);
 
 void TRM_UpdateWindow(TRM_Window* winow, TRM_Context* context);
 
+void TRM_RenderWindow(TRM_Window* window);
+
 void TRM_CloseWindow();
 
 #endif

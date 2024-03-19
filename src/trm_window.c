@@ -16,7 +16,7 @@ void config_terminal() {
     tcgetattr(STDIN_FILENO, &old_term);
     
     new_term = old_term;
-    new_term.c_lflag &= (ICANON | ECHO);
+    new_term.c_lflag &= ~(ICANON | ECHO);
     new_term.c_cc[VMIN] = 0;
     new_term.c_cc[VTIME] = 0;
 
@@ -58,6 +58,11 @@ void TRM_UpdateWindow(TRM_Window* window, TRM_Context* context) {
         printf("\n");
     }
 };
+
+void TRM_RenderWindow(TRM_Window* window) {
+    printf("\e[%dF\n", window->w - 1);
+    printf("\e[?251");
+}
 
 void TRM_CloseWindow() {
     reset_terminal();
