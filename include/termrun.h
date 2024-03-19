@@ -3,5 +3,6 @@
 
 #include <trm_window.h>
 #include <trm_context.h>
+#include <trm_destroy.h>
 
 #endif
