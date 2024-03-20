@@ -6,7 +6,8 @@ all: build libtermrun game
 libtermrun: \
 	$(OBJ)/trm_window.o \
 	$(OBJ)/trm_context.o \
-	$(OBJ)/trm_destroy.o
+	$(OBJ)/trm_destroy.o \
+	$(OBJ)/trm_event.o
 
 #example
 game:
