@@ -29,6 +29,7 @@ void config_terminal() {
 
 TRM_Window* TRM_CreateWindow(int w, int h) {
     config_terminal();
+    system("clear");
     TRM_Window* win = malloc(sizeof(TRM_Window));
 
     win->w = w;
@@ -57,11 +58,11 @@ void TRM_UpdateWindow(TRM_Window* window, TRM_Context* context) {
         }
         printf("\n");
     }
-};
+}
 
 void TRM_RenderWindow(TRM_Window* window) {
-    printf("\e[%dF\n", window->w - 1);
-    printf("\e[?251");
+    printf("\e[%dF\n", window->w);
+    fflush(stdout);
 }
 
 void TRM_CloseWindow() {
