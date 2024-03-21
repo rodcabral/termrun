@@ -8,13 +8,17 @@ libtermrun: \
 	$(OBJ)/trm_context.o \
 	$(OBJ)/trm_destroy.o \
 	$(OBJ)/trm_event.o
+	
+	gcc $(CFLAGS) -fPIC -shared $(OBJ)/*.o -I include -o $(OBJ)/libtermrun.so
+	cp -r ./include /usr/local/include
+	mv /usr/local/include/include /usr/local/include/termrun
+	mv $(OBJ)/libtermrun.so /lib
 
-#example
 game:
-	gcc $(CFLAGS) -fsanitize=address ./example/main.c $(OBJ)/*.o -I include -o ./build/$@
+	gcc $(CFLAGS) -fsanitize=address ./example/main.c -I include -ltermrun -o ./build/$@
 
 $(OBJ)/%.o: ./src/%.c
-	gcc -c $< -I include -o $@
+	gcc -c -fPIC $< -I include -o $@
 
 build:
 	mkdir build
