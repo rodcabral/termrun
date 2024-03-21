@@ -42,6 +42,7 @@ void TRM_UpdateWindow(TRM_Window* window, TRM_Context* context) {
     bool blink = false;
     for(int i = 0; i < window->h; i++) {
         for(int j = 0; j < window->w; j++) {
+
             for(int k = 0; k < context->size; k++) {
                 if(context->objects[k].ch != '\0') {
                     if(context->objects[k].x == j && context->objects[k].y == i) {
@@ -50,10 +51,31 @@ void TRM_UpdateWindow(TRM_Window* window, TRM_Context* context) {
                     }
                 }
             }
-            if(!blink) {
-                printf("-");
+
+            if(i == 0) {
+                if(j == 0) {
+                    printf("┌");
+                } else if(j == window->w - 1) {
+                    printf("┐");
+                } else {
+                    printf("─");
+                }
+            } else if(i == window->h - 1) {
+                if(j == 0) {
+                    printf("└");
+                } else if(j == window->w - 1) {
+                    printf("┘");
+                } else {
+                    printf("─");
+                }
+            } else if(j == 0 || j == window->w - 1) { 
+                printf("│");
             } else {
-                blink = false;
+                if(!blink) {
+                    printf(" ");
+                } else {
+                    blink = false;
+                }
             }
         }
         printf("\n");
@@ -62,6 +84,7 @@ void TRM_UpdateWindow(TRM_Window* window, TRM_Context* context) {
 
 void TRM_RenderWindow(TRM_Window* window) {
     printf("\e[%dF\n", window->w);
+    printf("\e[1;1H");
     fflush(stdout);
 }
 
