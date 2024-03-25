@@ -9,7 +9,7 @@ libtermrun: \
 	$(OBJ)/trm_destroy.o \
 	$(OBJ)/trm_event.o
 	
-	gcc $(CFLAGS) -fPIC -shared $(OBJ)/*.o -I include -o $(OBJ)/libtermrun.so
+	gcc $(CFLAGS) -O3 -fPIC -shared $(OBJ)/*.o -I include -o $(OBJ)/libtermrun.so
 
 genlib:
 	cp -r ./include /usr/local/include
@@ -17,10 +17,10 @@ genlib:
 	cp $(OBJ)/libtermrun.so /lib
 
 game:
-	gcc $(CFLAGS) -fsanitize=address ./example/main.c -I include $(OBJ)/libtermrun.so -o ./build/$@
+	gcc $(CFLAGS) -O3 ./example/main.c -I include $(OBJ)/libtermrun.so -o ./build/$@
 
 $(OBJ)/%.o: ./src/%.c
-	gcc -c -fPIC $< -I include -o $@
+	gcc -O3 -c -fPIC $< -I include -o $@
 
 build:
 	mkdir build
