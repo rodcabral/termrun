@@ -86,6 +86,7 @@ void TRM_RenderWindow(TRM_Window* window) {
     printf("\e[%dF\n", window->w);
     printf("\e[1;1H");
     fflush(stdout);
+    usleep(11000);
 }
 
 void TRM_CloseWindow() {
